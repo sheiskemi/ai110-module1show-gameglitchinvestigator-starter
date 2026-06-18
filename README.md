@@ -3,7 +3,7 @@
 ## 🚨 The Situation
 
 You asked an AI to build a simple "Number Guessing Game" using Streamlit.
-It wrote the code, ran away, and now the game is unplayable. 
+It wrote the code, ran away, and now the game is unplayable.
 
 - You can't win.
 - The hints lie to you.
@@ -17,7 +17,7 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 🕵️‍♂️ Your Mission
 
 1. **Play the game.** Open the "Developer Debug Info" tab in the app to see the secret number. Try to win.
-2. **Find the State Bug.** Why does the secret number change every time you click "Submit"? Ask ChatGPT: *"How do I keep a variable from resetting in Streamlit when I click a button?"*
+2. **Find the State Bug.** Why does the secret number change every time you click "Submit"? Ask ChatGPT: _"How do I keep a variable from resetting in Streamlit when I click a button?"_
 3. **Fix the Logic.** The hints ("Higher/Lower") are wrong. Fix them.
 4. **Refactor & Test.** - Move the logic into `logic_utils.py`.
    - Run `pytest` in your terminal.
@@ -25,30 +25,42 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+The game is a number guessing game built with Streamlit where the player tries to guess a secret number between 1 and 100 within a limited number of attempts.
+
+Bugs found:
+
+- Hint messages were inverted: guessing too low returned "Go LOWER!" and guessing too high returned "Go HIGHER!"
+- On even-numbered attempts, the secret number was converted to a string, breaking numeric comparison and causing wrong hints through lexicographic fallback
+- The "New Game" button did not reset the game state after a game over
+- The game accepted numbers outside the 1-100 range without rejecting them
+- The secret number was visible in the Developer Debug Info panel
+
+Fixes applied:
+
+- Swapped the hint messages in `check_guess` so they return the correct direction
+- Removed the string conversion logic that was corrupting even-numbered attempts
+- Moved `check_guess` and related functions into `logic_utils.py` and updated the import in `app.py`
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
-
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
-
-**Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+1. User opens the game and sees a prompt to guess a number between 1 and 100
+2. User guesses 40 and the game returns "Go HIGHER!" since the secret is 85
+3. User guesses 70 and the game returns "Go HIGHER!" again
+4. User guesses 90 and the game returns "Go LOWER!"
+5. User guesses 85 and the game returns "Correct!" with balloons and a final score
 
 ## 🧪 Test Results
 
-```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
-```
+pytest
+
+======================================= test session starts ========================================
+
+platform win32 -- Python 3.14.0, pytest-9.0.3, pluggy-1.6.0
+
+collected 5 items
+tests\test_game_logic.py ..... [100%]
+====================================== 5 passed in 0.15s =======================================
 
 ## 🚀 Stretch Features
 
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
+- [ ] No stretch features completed for this submission

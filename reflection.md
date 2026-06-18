@@ -4,9 +4,7 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 ## 1. What was broken when you started?
 
-- What did the game look like the first time you ran it?
-- List at least two concrete bugs you noticed at the start  
-  (for example: "the hints were backwards").
+When I first ran the game, it looked functional on the surface, a number guessing game with a clean interface and a debug panel showing the secret number, attempts, and score. But as soon as I started playing, things fell apart quickly. The hints were inconsistent and misleading, the "New Game" button did nothing after a game over, and the game accepted numbers outside the stated 1–100 range without any error. After asking my AI assistant to trace the hint bug, I found two root causes: the hint messages in `check_guess` are inverted (too low returns "Go LOWER!" instead of "Go HIGHER!"), and on even-numbered attempts `app.py` converts the secret number to a string, which breaks numeric comparison entirely and causes wrong results through a lexicographic fallback.
 
 **Bug Reproduction Log**
 
@@ -14,9 +12,10 @@ Document at least 3 bugs you found. Add rows as needed.
 
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+| Guessed 34, then 45 | Consistent higher/lower hints | Hints contradicted each other | none |
+| Clicked "New Game" after game over | Game resets with a new secret number | Game over screen persists, nothing resets | none |
+| Guessed 130 (outside 1-100 range) | Input rejected or error shown | Game accepted it and returned "Go Higher" | none |
+| Opened developer debug info | Secret number hidden from player | Secret number visible in debug panel | none |
 
 ---
 
